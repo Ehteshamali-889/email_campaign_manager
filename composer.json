@@ -1,5 +1,5 @@
 {
-  "name": "vendor/email-campaign-manager",
+  "name": "ehteshamali/email-campaign-manager",
   "description": "A Laravel package for sending email campaigns",
   "type": "library",
   "license": "MIT",
