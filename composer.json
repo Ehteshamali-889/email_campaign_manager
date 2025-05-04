@@ -19,5 +19,7 @@
     "php": ">=8.0",
     "illuminate/support": "^9.0|^10.0",
     "darkaonline/l5-swagger": "^9.0"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
