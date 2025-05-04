@@ -18,7 +18,7 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
     {
         // Publish migrations
         $this->publishes([
-            __DIR__.'/../Database/Migrations' => database_path('migrations'),
+            __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'migrations');
 
         // Publish models (Optional - useful if you want to customize models)
@@ -28,12 +28,12 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
 
         // Publish views
         $this->publishes([
-            __DIR__.'/../Resources/Views' => resource_path('views/vendor/email-campaign-manager'),
+            __DIR__.'/../views/emails' => resource_path('views/vendor/email-campaign-manager'),
         ], 'views');
 
         // Publish routes
         $this->publishes([
-            __DIR__.'/../Routes/api.php' => base_path('routes/api.php'),
+            __DIR__.'/../routes/api.php' => base_path('routes/api.php'),
         ], 'routes');
 
         // Optionally, publish config file if you plan to add configuration options later
@@ -42,4 +42,3 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
         ], 'config');
     }
 }
-

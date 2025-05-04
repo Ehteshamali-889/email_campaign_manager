@@ -12,12 +12,6 @@
     "laravel": {
       "providers": [
         "EmailCampaignManager\\EmailCampaignManagerServiceProvider"
-      ],
-      "publishable": [
-        "migrations",
-        "views",
-        "routes",
-        "models"
       ]
     }
   },
