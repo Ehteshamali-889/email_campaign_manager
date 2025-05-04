@@ -1,0 +1,23 @@
+{
+  "name": "vendor/email-campaign-manager",
+  "description": "A Laravel package for sending email campaigns",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "EmailCampaignManager\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "EmailCampaignManager\\EmailCampaignManagerServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "illuminate/support": "^9.0|^10.0",
+    "darkaonline/l5-swagger": "^9.0"
+  }
+}
