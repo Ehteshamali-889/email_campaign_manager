@@ -16,6 +16,30 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // You can register any routes, migrations, or other bootstrapping here
+        // Publish migrations
+        $this->publishes([
+            __DIR__.'/../Database/Migrations' => database_path('migrations'),
+        ], 'migrations');
+
+        // Publish models (Optional - useful if you want to customize models)
+        $this->publishes([
+            __DIR__.'/../Models' => app_path('Models'),
+        ], 'models');
+
+        // Publish views
+        $this->publishes([
+            __DIR__.'/../Resources/Views' => resource_path('views/vendor/email-campaign-manager'),
+        ], 'views');
+
+        // Publish routes
+        $this->publishes([
+            __DIR__.'/../Routes/api.php' => base_path('routes/api.php'),
+        ], 'routes');
+
+        // Optionally, publish config file if you plan to add configuration options later
+        $this->publishes([
+            __DIR__.'/../config/email_campaign_manager.php' => config_path('email_campaign_manager.php'),
+        ], 'config');
     }
 }
+
