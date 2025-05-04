@@ -8,7 +8,6 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // Bind EmailCampaignManager to the service container
         $this->app->singleton(EmailCampaignManager::class, function ($app) {
             return new EmailCampaignManager();
         });
@@ -16,29 +15,36 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Publish migrations
-        $this->publishes([
-            __DIR__ . '/../database/migrations' => database_path('migrations'),
-        ], 'migrations');
+        // Load and optionally publish the routes
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
 
-        // Publish models
-        $this->publishes([
-            __DIR__ . '/../Models' => app_path('Models'),
-        ], 'models');
+        // Load and optionally publish the migrations
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
-        // Publish views
         $this->publishes([
-            __DIR__ . '/../views/emails' => resource_path('views/vendor/email-campaign-manager'),
-        ], 'views');
+            __DIR__.'/database/migrations' => database_path('migrations'),
+        ], 'email-campaign-manager-migrations');
 
-        // Publish routes
-        $this->publishes([
-            __DIR__ . '/../routes/api.php' => base_path('routes/api.php'),
-        ], 'routes');
+        // Load and optionally publish views
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'email-campaign-manager');
 
-        // Optionally, publish config file
         $this->publishes([
-            __DIR__ . '/../config/email_campaign_manager.php' => config_path('email_campaign_manager.php'),
-        ], 'config');
+            __DIR__.'/resources/views' => resource_path('views/vendor/email-campaign-manager'),
+        ], 'email-campaign-manager-views');
+
+        // Publish Jobs and Models to app if needed
+        $this->publishes([
+            __DIR__.'/Jobs' => app_path('Jobs'),
+        ], 'email-campaign-manager-jobs');
+
+        $this->publishes([
+            __DIR__.'/Models' => app_path('Models'),
+        ], 'email-campaign-manager-models');
+
+        // Optional: publish route file if user wants to customize
+        $this->publishes([
+            __DIR__.'/routes/api.php' => base_path('routes/email-campaign-manager.php'),
+        ], 'email-campaign-manager-routes');
     }
 }
+
