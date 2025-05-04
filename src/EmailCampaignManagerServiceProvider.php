@@ -15,35 +15,43 @@ class EmailCampaignManagerServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Load and optionally publish the routes
-        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+        $srcPath = __DIR__; // This points to src/
+        $basePath = dirname(__DIR__); // This points to the package root
 
-        // Load and optionally publish the migrations
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        // Load routes and migrations from src/
+        $this->loadRoutesFrom($srcPath.'/routes/api.php');
+        $this->loadMigrationsFrom($srcPath.'/database/migrations');
 
+        // Load views from root-level views directory
+        $this->loadViewsFrom($basePath.'/views', 'email-campaign-manager');
+
+        // Publish migrations from src/
         $this->publishes([
-            __DIR__.'/database/migrations' => database_path('migrations'),
+            $srcPath.'/database/migrations' => database_path('migrations'),
         ], 'email-campaign-manager-migrations');
 
-        // Load and optionally publish views
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'email-campaign-manager');
-
+        // Publish views from root-level views/
         $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/email-campaign-manager'),
+            $basePath.'/views' => resource_path('views/vendor/email-campaign-manager'),
         ], 'email-campaign-manager-views');
 
-        // Publish Jobs and Models to app if needed
-        $this->publishes([
-            __DIR__.'/Jobs' => app_path('Jobs'),
-        ], 'email-campaign-manager-jobs');
+        // Publish Jobs if present
+        if (is_dir($srcPath.'/Jobs')) {
+            $this->publishes([
+                $srcPath.'/Jobs' => app_path('Jobs'),
+            ], 'email-campaign-manager-jobs');
+        }
 
-        $this->publishes([
-            __DIR__.'/Models' => app_path('Models'),
-        ], 'email-campaign-manager-models');
+        // Publish Models if present
+        if (is_dir($srcPath.'/Models')) {
+            $this->publishes([
+                $srcPath.'/Models' => app_path('Models'),
+            ], 'email-campaign-manager-models');
+        }
 
-        // Optional: publish route file if user wants to customize
+        // Optionally publish route file to Laravel routes directory
         $this->publishes([
-            __DIR__.'/routes/api.php' => base_path('routes/email-campaign-manager.php'),
+            $srcPath.'/routes/api.php' => base_path('routes/email-campaign-manager.php'),
         ], 'email-campaign-manager-routes');
     }
 }
